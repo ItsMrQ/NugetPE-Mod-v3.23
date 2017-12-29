@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <RootNamespace>NuGetPe</RootNamespace>
+    <Description>Core library which is responsible for loading .nupkg files and parsing .nuspec files.</Description>
+    <Title>NuGet Package Explorer Core</Title>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="System.Net.Http" />
+    <EmbeddedResource Include="Authoring\nuspec.xsd" />
+    <EmbeddedResource Update="NuGetResources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="NuGetResources.Designer.cs" CustomToolNamespace="NuGetPe.Resources" />
+    <Compile Update="NuGetResources.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="NuGetResources.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Types\Types.csproj" />
+  </ItemGroup>
+
+</Project>
