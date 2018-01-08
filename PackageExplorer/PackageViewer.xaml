@@ -387,43 +387,82 @@
 
                 <!-- Toolbar for package metadata pane --> 
                 <Border Grid.Row="0" Background="#BCC7D8" Padding="3" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="0,1,0,0">
+
                     <StackPanel Orientation="Horizontal">
-                        <Button 
+                        <!-- Edit Metadata Button -->
+                        <Button
                             Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
                             Command="{Binding EditCommand, Mode=OneWay}" 
-                            Margin="2,0,0,0" 
-                            Padding="1,0,0,0"
+                            Margin="1,0,0,0" 
+                            Width = "170"
                             Visibility="{Binding IsInEditMetadataMode, Converter={StaticResource invertedBoolToVis}}"
                             ToolTipService.ToolTip="Edit Metadata (Ctrl+K)">
-                            <Image Source="Images/EditHS.png" />
-                        </Button>
 
+                            <Grid>
+                                <!--Position two wide buttons to fill horizontal width (170) based on (min) grid column width (350) with img + text-->
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0"  Source="Images/EditHS.png"/>
+                                <TextBlock Grid.Column="1" Text="Edit Metadata" Padding="7,0"></TextBlock>
+                            </Grid>
+                        </Button>
+                        <!-- Edit Metadata Source Button -->
                         <Button
                             Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
                             Command="{Binding EditMetadataSourceCommand, Mode=OneWay}"
-                            Margin="1,0,0,0" 
+                            Margin="1,0,0,0"                             
+                            Width="170"
                             Visibility="{Binding IsInEditMetadataMode, Converter={StaticResource invertedBoolToVis}}"
                             ToolTipService.ToolTip="Edit Metadata Source">
-                            <Image Source="Images/EditSource.png" />
-                        </Button>
 
-                        <Button 
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0"  Source="Images/EditSource.png"/>
+                                <TextBlock Grid.Column="1" Text="Source" Padding="7,0"></TextBlock>
+                            </Grid>
+                        </Button>
+                        <!-- Save Button -->
+                        <Button
                             Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
-                            Margin="2,0,0,0"
+                            Margin="1,0,0,0"
+                            Width = "170"
                             ToolTipService.ToolTip="Save"
                             Visibility="{Binding IsInEditMetadataMode, Converter={StaticResource boolToVis}}"
                             Command="{Binding ApplyEditCommand}">
-                            <Image Source="Images/Validate.png" />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0"  Source="Images/Validate.png"/>
+                                <TextBlock Grid.Column="1" Text="Save" Padding="7,0"></TextBlock>
+                            </Grid>
                         </Button>
-                        
-                        <Button 
+                        <!-- Cancel Edit Button -->
+                        <Button
                             Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
                             Margin="1,0,0,0"
+                            Width = "170"
                             ToolTipService.ToolTip="Cancel (Esc)"
                             Visibility="{Binding IsInEditMetadataMode, Converter={StaticResource boolToVis}}"
                             Command="{Binding CancelEditCommand}">
-                            <Image Source="Images/Cancel.png" />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0"  Source="Images/Cancel.png"/>
+                                <TextBlock Grid.Column="1" Text="Cancel" Padding="7,0"></TextBlock>
+                            </Grid>
                         </Button>
+
                     </StackPanel>
                 </Border>
 
