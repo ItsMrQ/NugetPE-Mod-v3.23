@@ -131,7 +131,7 @@ namespace NuGetPe
 
         private string GetPackageFilePath(string id, NuGet.SemanticVersion version)
         {
-            return Path.Combine(Source, id + "." + version + Constants.PackageExtension);
+            return Path.Combine(Source, id + "-" + version + Constants.PackageExtension);
         }
 
         /// <summary>
