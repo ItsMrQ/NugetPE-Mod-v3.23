@@ -95,7 +95,7 @@ namespace PackageExplorerViewModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "NuGetPackageExplorer.Types.IUIServices.Confirm(System.String,System.String,System.Boolean)")]
         private void Save()
         {
-            string expectedPackageName = ViewModel.PackageMetadata + NuGetPe.Constants.PackageExtension;
+            string expectedPackageName = ViewModel.PackageMetadata.Id + "-" + ViewModel.PackageMetadata.Version + NuGetPe.Constants.PackageExtension;
             string packageName = Path.GetFileName(ViewModel.PackageSource);
             if (!expectedPackageName.Equals(packageName, StringComparison.OrdinalIgnoreCase))
             {
@@ -119,7 +119,7 @@ namespace PackageExplorerViewModel
 
         private void SaveAs()
         {
-            string packageName = ViewModel.PackageMetadata + NuGetPe.Constants.PackageExtension;
+            string packageName = ViewModel.PackageMetadata.Id + "-" + ViewModel.PackageMetadata.Version + NuGetPe.Constants.PackageExtension;
             string title = "Save " + packageName;
             const string filter = "NuGet package file (*.nupkg)|*.nupkg|All files (*.*)|*.*";
             string selectedPackagePath;
