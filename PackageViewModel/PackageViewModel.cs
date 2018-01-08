@@ -150,7 +150,7 @@ namespace PackageExplorerViewModel
 
         public string WindowTitle
         {
-            get { return Resources.Dialog_Title + " - " + _packageMetadata; }
+            get { return Resources.Dialog_Title + " - " + _packageMetadata.Id + " - " + _packageMetadata.Version; }
         }
 
         public EditablePackageMetadata PackageMetadata
