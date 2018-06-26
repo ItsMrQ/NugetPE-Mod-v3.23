@@ -385,12 +385,12 @@ namespace PackageExplorer
                                    CommandLinkNote =
                                        "'" + fileName + "' will be added to the package root."
                                };
+            /*Avoid prompt suggesting to place files in specific folders, developers have already organized their project files accordingly*/
+            //dialog.Buttons.Add(moveButton);
+            //dialog.Buttons.Add(noMoveButton);
+            //dialog.Buttons.Add(new TaskDialogButton(ButtonType.Cancel));
 
-            dialog.Buttons.Add(moveButton);
-            dialog.Buttons.Add(noMoveButton);
-            dialog.Buttons.Add(new TaskDialogButton(ButtonType.Cancel));
-
-            TaskDialogButton result = dialog.ShowDialog(Window.Value);
+            TaskDialogButton result = noMoveButton;//dialog.ShowDialog(Window.Value);
 
             bool? movingFile;
             if (result == moveButton)
