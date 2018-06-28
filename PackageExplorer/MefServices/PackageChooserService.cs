@@ -55,7 +55,7 @@ namespace PackageExplorer
                 string selectedFilePath;
                 int selectedIndex;
 
-                string packageName = packageInfo.Id + "." + packageInfo.Version.ToString() + NuGetPe.Constants.PackageExtension;
+                string packageName = packageInfo.Id + "-" + packageInfo.Version.ToString() + NuGetPe.Constants.PackageExtension;
                 string title = "Save " + packageName;
                 const string filter = "NuGet package file (*.nupkg)|*.nupkg|All files (*.*)|*.*";
 

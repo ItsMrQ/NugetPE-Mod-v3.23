@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:self="clr-namespace:PackageExplorer" 
     xmlns:viewmodel="clr-namespace:PackageExplorerViewModel;assembly=PackageViewModel" 
-    xmlns:resources="clr-namespace:PackageExplorer.Resources" 
+    xmlns:resources="clr-namespace:PackageExplorer.Resources"
+    xmlns:spinners="clr-namespace:xamlSpinnersWPF"
     xmlns:types="clr-namespace:NuGetPe;assembly=NuGetPackageExplorer.Types"
     Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Collapsed}" 
     Margin="5,7,5,7"
@@ -176,6 +177,7 @@
                             <TextBlock Text="{x:Static resources:Resources.Dialog_VersionLabel}" Style="{StaticResource DetailMetadataLabelStyle}" />
                             <TextBlock Text="{Binding Version}" Style="{StaticResource DetailMetadataValueStyle}" />
                             <TextBlock Margin="3,0,0,0" Text="(prerelease)" Foreground="DarkRed" Visibility="{Binding Version.SpecialVersion, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                            <spinners:ucSpinnerDotCircle x:Name="spinner" Margin="10,0,0,0" Width="16" Height="16" Foreground="Black" />
                         </StackPanel>
 
                         <!-- Title -->
