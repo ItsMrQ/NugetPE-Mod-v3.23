@@ -504,37 +504,35 @@ namespace PackageExplorerViewModel
         #region IncrementVersionCommand
         public ICommand IncrementVersionCommand
         {
-            get /*sample*/
+            get
             {
                 if (_incrementVersionCommand == null)
                 {
-                    _incrementVersionCommand = new RelayCommand(IncrementValue, () => !IsInEditFileMode);
+                    _incrementVersionCommand = new RelayCommand(CallIncrementValue, () => !IsInEditFileMode);
                 }
                 return _incrementVersionCommand;
             }
         }
-        private void IncrementValue()
+        private void CallIncrementValue()
         {
-            String value = "10.01.001";
-            IncrementVersion(value);    
+            IncrementVersion();    
         }
         #endregion
         #region DecrementVersionCommand
         public ICommand DecrementVersionCommand
         {
-            get /*sample*/
+            get
             {
                 if (_decrementVersionCommand == null)
                 {
-                    _decrementVersionCommand = new RelayCommand(DecrementValue, () => !IsInEditFileMode);
+                    _decrementVersionCommand = new RelayCommand(CallDecrementValue, () => !IsInEditFileMode);
                 }
                 return _decrementVersionCommand;
             }
         }
-        private void DecrementValue()
+        private void CallDecrementValue()
         {
-            String value = "07.01.001";
-            DecrementVersion(value);
+            DecrementVersion();
         }
         #endregion
         #region DeleteContentCommand
@@ -1172,7 +1170,7 @@ namespace PackageExplorerViewModel
             IsInEditMetadataMode = false;
         }
 
-        public void IncrementVersion(string value)
+        public void IncrementVersion()
         {
             string newVersion = (PackageMetadata.Version).ToString();
             string[] values = newVersion.Split('.'); /*Index each set of values using '.' as a delimiter*/
@@ -1192,7 +1190,7 @@ namespace PackageExplorerViewModel
             PackageMetadata.Version = TemplatebleSemanticVersion.Parse(newVersion);
             
         }
-        public void DecrementVersion(string value)
+        public void DecrementVersion()
         {
             string newVersion = (PackageMetadata.Version).ToString();
             string[] values = newVersion.Split('.'); /*Index each set of values using '.' as a delimiter*/
