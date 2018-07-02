@@ -36,6 +36,8 @@ namespace PackageExplorerViewModel
         private ICommand _addBuildFileCommand;
         private ICommand _applyEditCommand;
         private ICommand _cancelEditCommand;
+        private ICommand _incrementVersionCommand;
+        private ICommand _decrementVersionCommand;
         private FileContentInfo _currentFileInfo;
         private RelayCommand<object> _deleteContentCommand;
         private ICommand _editCommand;
@@ -219,7 +221,7 @@ namespace PackageExplorerViewModel
                 {
                     _selectedItem = value;
                     OnPropertyChanged("SelectedItem");
-                    ((ViewContentCommand) ViewContentCommand).RaiseCanExecuteChanged();
+                    ((ViewContentCommand)ViewContentCommand).RaiseCanExecuteChanged();
                     CommandManager.InvalidateRequerySuggested();
                 }
             }
@@ -497,6 +499,44 @@ namespace PackageExplorerViewModel
 
         #endregion
 
+
+
+        #region IncrementVersionCommand
+        public ICommand IncrementVersionCommand
+        {
+            get /*sample*/
+            {
+                if (_incrementVersionCommand == null)
+                {
+                    _incrementVersionCommand = new RelayCommand(IncrementValue, () => !IsInEditFileMode);
+                }
+                return _incrementVersionCommand;
+            }
+        }
+        private void IncrementValue()
+        {
+            String value = "10.01.001";
+            IncrementVersion(value);    
+        }
+        #endregion
+        #region DecrementVersionCommand
+        public ICommand DecrementVersionCommand
+        {
+            get /*sample*/
+            {
+                if (_decrementVersionCommand == null)
+                {
+                    _decrementVersionCommand = new RelayCommand(DecrementValue, () => !IsInEditFileMode);
+                }
+                return _decrementVersionCommand;
+            }
+        }
+        private void DecrementValue()
+        {
+            String value = "07.01.001";
+            DecrementVersion(value);
+        }
+        #endregion
         #region DeleteContentCommand
 
         public RelayCommand<object> DeleteContentCommand
@@ -651,7 +691,7 @@ namespace PackageExplorerViewModel
             string title = "Save " + file.Name;
             const string filter = "All files (*.*)|*.*";
             int filterIndex;
-            if (UIServices.OpenSaveFileDialog(title, file.Name, /* initial directory */ null, filter, /* overwritePrompt */ true, 
+            if (UIServices.OpenSaveFileDialog(title, file.Name, /* initial directory */ null, filter, /* overwritePrompt */ true,
                                               out selectedFileName, out filterIndex))
             {
                 using (FileStream fileStream = File.OpenWrite(selectedFileName))
@@ -891,7 +931,7 @@ namespace PackageExplorerViewModel
 
         private bool CanEditFileCommandExecute(PackagePart file)
         {
-            return (file is PackageFile) && 
+            return (file is PackageFile) &&
                    !IsInEditFileMode &&
                    !FileHelper.IsBinaryFile(file.Path);
         }
@@ -932,7 +972,7 @@ namespace PackageExplorerViewModel
         {
             string packageName = PackageMetadata + NuGetPe.Constants.ManifestExtension;
             string filePath = Path.GetTempFileName();
-            
+
             ExportManifest(filePath, askForConfirmation: false, includeFilesSection: false);
 
             return new PackageMetadataFile(packageName, filePath, this);
@@ -1130,6 +1170,46 @@ namespace PackageExplorerViewModel
         {
             PackageMetadata.ResetErrors();
             IsInEditMetadataMode = false;
+        }
+
+        public void IncrementVersion(string value)
+        {
+            string newVersion = (PackageMetadata.Version).ToString();
+            string[] values = newVersion.Split('.'); /*Index each set of values using '.' as a delimiter*/
+            int length = (values.Length);
+            int convertVal = Int32.Parse((values[length-1])); /*Accessing last index*/
+
+                if ( convertVal < 999) { convertVal++;}
+            
+            string padded = "";
+                if ((convertVal % 1000) >= 100) { /*No padded zeros*/}
+                else if ((convertVal % 100) >= 10) { padded = "0"; /*Pad one zero*/}
+                else { padded = "00"; /*Pad two zeros*/ }
+
+
+            newVersion = values[0] + '.' + values[1] + '.' + padded + (convertVal.ToString());
+
+            PackageMetadata.Version = TemplatebleSemanticVersion.Parse(newVersion);
+            
+        }
+        public void DecrementVersion(string value)
+        {
+            string newVersion = (PackageMetadata.Version).ToString();
+            string[] values = newVersion.Split('.'); /*Index each set of values using '.' as a delimiter*/
+            int length = (values.Length);
+            int convertVal = Int32.Parse((values[length - 1])); /*Accessing last index*/
+
+            if (convertVal > 1) { convertVal--; }
+
+            string padded = "";
+            if ((convertVal % 1000) >= 100) { /*No padded zeros*/}
+            else if ((convertVal % 100) >= 10) { padded = "0"; /*Pad one zero*/}
+            else { padded = "00"; /*Pad two zeros*/ }
+
+
+            newVersion = values[0] + '.' + values[1] + '.' + padded + (convertVal.ToString());
+
+            PackageMetadata.Version = TemplatebleSemanticVersion.Parse(newVersion);
         }
 
         private void CommitEdit()
