@@ -98,7 +98,10 @@
 
             <!-- Version -->
             <Label Grid.Row="1" Grid.Column="0" Target="VersionBox" Style="{StaticResource RequiredLabelStyle}" Content="_Version" />
+
+
             <TextBox Grid.Row="1" Grid.Column="1" x:Name="VersionBox">
+
                 <TextBox.Text>
                     <Binding Path="PackageMetadata.Version" Converter="{StaticResource VersionConverter}" ValidatesOnDataErrors="True">
                         <Binding.ValidationRules>
@@ -107,7 +110,32 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
+        <!---Decrease Version-->
+            <Button Grid.Row="1" Grid.Column="0"
+                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                            Margin="20,0,0,0"
+                            Width = "20"
+                            ToolTipService.ToolTip="Decrease Version"
+                            Visibility="{Binding IsInEditMetadataMode, Converter={StaticResource boolToVis}}"
+                            Command="{Binding DecrementVersionCommand}">
 
+                <Grid>
+                    <Image Source="Images/Minus.png" />
+                </Grid>
+            </Button>
+            <!--Increase Version-->
+            <Button Grid.Row="1" Grid.Column="0"
+                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                            Margin="60,0,0,0"
+                            Width = "20"
+                            ToolTipService.ToolTip="Increase Version"
+                            Visibility="{Binding IsInEditMetadataMode, Converter={StaticResource boolToVis}}"
+                            Command="{Binding IncrementVersionCommand}">
+                <Grid>
+                    <Image Source="Images/Add.png"/>
+                </Grid>
+            </Button>
+            
             <!-- Title -->
             <Label Grid.Row="2" Grid.Column="0" Target="TitleBox" Style="{StaticResource LabelStyle}" Content="_Title" />
             <TextBox Grid.Row="2" Grid.Column="1" x:Name="TitleBox" Text="{Binding PackageMetadata.Title}" />

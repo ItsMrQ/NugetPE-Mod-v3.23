@@ -38,7 +38,7 @@ namespace NuGetPe
         /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
         public TemplatebleSemanticVersion(int major, int minor, int build, int revision)
         {
-            _version = new SemanticVersion(major, minor, build, revision);
+            _version = new SemanticVersion(major, minor, build, revision);             
         }
 
         public static bool TryParse(string version, out TemplatebleSemanticVersion templatebleSemanticVersion)
@@ -135,7 +135,6 @@ namespace NuGetPe
 
             return _version.ToString();
         }
-
         #endregion
     }
 }

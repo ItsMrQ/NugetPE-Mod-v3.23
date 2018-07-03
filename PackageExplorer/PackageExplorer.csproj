@@ -360,6 +360,7 @@
     <Resource Include="Images\build.png" />
     <Resource Include="Images\props.png" />
     <Resource Include="Images\FindHS.png" />
+    <Resource Include="Images\Minus.png" />
     <Content Include="Resources\fxAssemblies.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
