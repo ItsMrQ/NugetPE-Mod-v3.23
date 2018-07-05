@@ -117,7 +117,7 @@
                             Width = "20"
                             ToolTipService.ToolTip="Decrease Version"
                             Visibility="{Binding IsInEditMetadataMode, Converter={StaticResource boolToVis}}"
-                            Command="{Binding DecrementVersionCommand}">
+                            Command="{Binding DecreaseVersionCommand}">
 
                 <Grid>
                     <Image Source="Images/Minus.png" />
@@ -130,7 +130,7 @@
                             Width = "20"
                             ToolTipService.ToolTip="Increase Version"
                             Visibility="{Binding IsInEditMetadataMode, Converter={StaticResource boolToVis}}"
-                            Command="{Binding IncrementVersionCommand}">
+                            Command="{Binding IncreaseVersionCommand}">
                 <Grid>
                     <Image Source="Images/Add.png"/>
                 </Grid>
