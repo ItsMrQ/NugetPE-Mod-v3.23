@@ -1180,7 +1180,7 @@ namespace PackageExplorerViewModel
             int length = (values.Length);
             int convertVal = Int32.Parse((values[length - 1])); /*Accessing last index*/
 
-            if(update == true){ if(convertVal < 999) { convertVal++; }}
+            if(update == true){ convertVal++; }
             else{ if (convertVal > 1) { convertVal--; }}
 
             newVersion = values[0] + '.' + values[1] + '.' + PaddedValue(convertVal) + (convertVal.ToString());
@@ -1190,10 +1190,12 @@ namespace PackageExplorerViewModel
         private string PaddedValue(int value)
         {
             string padded = "";
-            if ((value % 1000) >= 100) { /*No padded zeros*/}
-            else if ((value % 100) >= 10) { padded = "0"; /*Pad one zero*/}
-            else { padded = "00"; /*Pad two zeros*/ }
-
+            if (value < 1000)
+            {
+                if ((value % 1000) >= 100) { /*No padded zeros*/}
+                else if ((value % 100) >= 10) { padded = "0"; /*Pad one zero*/}
+                else { padded = "00"; /*Pad two zeros*/ }
+            }
             return padded;
         }
         #endregion
