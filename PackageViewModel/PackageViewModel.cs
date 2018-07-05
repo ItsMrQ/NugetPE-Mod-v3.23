@@ -501,38 +501,30 @@ namespace PackageExplorerViewModel
 
 
 
-        #region IncrementVersionCommand
-        public ICommand IncrementVersionCommand
+        #region IncreaseVersionCommand
+        public ICommand IncreaseVersionCommand
         {
             get
             {
                 if (_incrementVersionCommand == null)
                 {
-                    _incrementVersionCommand = new RelayCommand(CallIncrementValue, () => !IsInEditFileMode);
+                    _incrementVersionCommand = new RelayCommand(IncreaseVersion, () => !IsInEditFileMode);
                 }
                 return _incrementVersionCommand;
             }
         }
-        private void CallIncrementValue()
-        {
-            IncrementVersion();    
-        }
         #endregion
-        #region DecrementVersionCommand
-        public ICommand DecrementVersionCommand
+        #region DecreaseVersionCommand
+        public ICommand DecreaseVersionCommand
         {
             get
             {
                 if (_decrementVersionCommand == null)
                 {
-                    _decrementVersionCommand = new RelayCommand(CallDecrementValue, () => !IsInEditFileMode);
+                    _decrementVersionCommand = new RelayCommand(DecreaseVersion, () => !IsInEditFileMode);
                 }
                 return _decrementVersionCommand;
             }
-        }
-        private void CallDecrementValue()
-        {
-            DecrementVersion();
         }
         #endregion
         #region DeleteContentCommand
@@ -1161,55 +1153,50 @@ namespace PackageExplorerViewModel
             // raise the property change event here to force the edit form to rebind 
             // all controls, which will erase all error states, if any, left over from the previous edit
             OnPropertyChanged("PackageMetadata");
+            PackageMetadata.RevertVersion = PackageMetadata.Version;
             IsInEditMetadataMode = true;
         }
 
         public void CancelEdit()
         {
             PackageMetadata.ResetErrors();
+            PackageMetadata.Version = PackageMetadata.RevertVersion;
             IsInEditMetadataMode = false;
         }
 
-        public void IncrementVersion()
+        #region IncreaseVersion/DecreaseVersion/UpdateVersion/PaddedValue
+        private void IncreaseVersion()
         {
-            string newVersion = (PackageMetadata.Version).ToString();
-            string[] values = newVersion.Split('.'); /*Index each set of values using '.' as a delimiter*/
-            int length = (values.Length);
-            int convertVal = Int32.Parse((values[length-1])); /*Accessing last index*/
-
-                if ( convertVal < 999) { convertVal++;}
-            
-            string padded = "";
-                if ((convertVal % 1000) >= 100) { /*No padded zeros*/}
-                else if ((convertVal % 100) >= 10) { padded = "0"; /*Pad one zero*/}
-                else { padded = "00"; /*Pad two zeros*/ }
-
-
-            newVersion = values[0] + '.' + values[1] + '.' + padded + (convertVal.ToString());
-
-            PackageMetadata.Version = TemplatebleSemanticVersion.Parse(newVersion);
-            
+            UpdateVersion(true); /*Increment value*/
         }
-        public void DecrementVersion()
+        private void DecreaseVersion()
+        {
+            UpdateVersion(false); /*Decrement value*/
+        }
+        private void UpdateVersion(bool update)
         {
             string newVersion = (PackageMetadata.Version).ToString();
             string[] values = newVersion.Split('.'); /*Index each set of values using '.' as a delimiter*/
             int length = (values.Length);
             int convertVal = Int32.Parse((values[length - 1])); /*Accessing last index*/
 
-            if (convertVal > 1) { convertVal--; }
+            if(update == true){ if(convertVal < 999) { convertVal++; }}
+            else{ if (convertVal > 1) { convertVal--; }}
 
-            string padded = "";
-            if ((convertVal % 1000) >= 100) { /*No padded zeros*/}
-            else if ((convertVal % 100) >= 10) { padded = "0"; /*Pad one zero*/}
-            else { padded = "00"; /*Pad two zeros*/ }
-
-
-            newVersion = values[0] + '.' + values[1] + '.' + padded + (convertVal.ToString());
+            newVersion = values[0] + '.' + values[1] + '.' + PaddedValue(convertVal) + (convertVal.ToString());
 
             PackageMetadata.Version = TemplatebleSemanticVersion.Parse(newVersion);
         }
+        private string PaddedValue(int value)
+        {
+            string padded = "";
+            if ((value % 1000) >= 100) { /*No padded zeros*/}
+            else if ((value % 100) >= 10) { padded = "0"; /*Pad one zero*/}
+            else { padded = "00"; /*Pad two zeros*/ }
 
+            return padded;
+        }
+        #endregion
         private void CommitEdit()
         {
             HasEdit = true;
