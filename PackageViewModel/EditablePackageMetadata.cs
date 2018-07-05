@@ -183,10 +183,7 @@ namespace PackageExplorerViewModel
         public TemplatebleSemanticVersion RevertVersion
         {
             get { return _revertVersion;}
-            set
-            {
-                _revertVersion = value;
-            }
+            set { _revertVersion = value;}
         }
         public string Title
         {

@@ -13,7 +13,6 @@ namespace NuGetPackageExplorer.Types
     {
         public string Id { get; set; }
         public TemplatebleSemanticVersion Version { get; set; }
-        public TemplatebleSemanticVersion EditableVersion { get; set; }
         public string Path { get; set; }
         public PackageType PackageType { get; set; }
 
