@@ -44,6 +44,7 @@
         <KeyBinding Key="Escape" Command="{Binding CancelEditCommand}" />
         <KeyBinding Key="F2" Command="{Binding RenameContentCommand}" />
         <KeyBinding Key="Delete" Command="{Binding DeleteContentCommand}" />
+        <KeyBinding Modifiers="Control+Shift" Key="Z" Command="{Binding ClearContentCommand}" />
         <KeyBinding Key="Enter" Command="{Binding ViewContentCommand}" />
     </Window.InputBindings>
 
@@ -199,6 +200,11 @@
                 </MenuItem>
                 <MenuItem Header="_Rename..." Command="{Binding RenameContentCommand}" InputGestureText="F2" />
                 <self:GrayscaleMenuItem Header="_Delete..." Command="{Binding DeleteContentCommand}" InputGestureText="Delete">
+                    <self:GrayscaleMenuItem.Icon>
+                        <self:GrayscaleImage Source="Images/Delete.png" />
+                    </self:GrayscaleMenuItem.Icon>
+                </self:GrayscaleMenuItem>
+                <self:GrayscaleMenuItem Header="_Clear Package Contents..." Command="{Binding ClearContentCommand}" InputGestureText="Ctrl+Shift+Z">
                     <self:GrayscaleMenuItem.Icon>
                         <self:GrayscaleImage Source="Images/Delete.png" />
                     </self:GrayscaleMenuItem.Icon>
