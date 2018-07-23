@@ -36,6 +36,7 @@ namespace PackageExplorerViewModel
         private ICommand _addBuildFileCommand;
         private ICommand _applyEditCommand;
         private ICommand _cancelEditCommand;
+        private ICommand _renewVersionCommand;
         private ICommand _incrementVersionCommand;
         private ICommand _decrementVersionCommand;
         private FileContentInfo _currentFileInfo;
@@ -500,7 +501,19 @@ namespace PackageExplorerViewModel
 
         #endregion
 
-
+        #region RenewVersionCommand
+        public ICommand RenewVersionCommand
+        {
+            get
+            {
+                if (_renewVersionCommand == null)
+                {
+                    _renewVersionCommand = new RelayCommand(RenewVersion, () => !IsInEditFileMode);
+                }
+                return _renewVersionCommand;
+            }
+        }
+        #endregion
 
         #region IncreaseVersionCommand
         public ICommand IncreaseVersionCommand
@@ -1211,7 +1224,13 @@ namespace PackageExplorerViewModel
             IsInEditMetadataMode = false;
         }
 
-        #region IncreaseVersion/DecreaseVersion/UpdateVersion/PaddedValue
+        #region RenewVersion/IncreaseVersion/DecreaseVersion/UpdateVersion/PaddedValue
+        private void RenewVersion()
+        {
+            int year = (DateTime.Now.Year) % 100;
+            string month = (DateTime.Now.Month).ToString().PadLeft(2, '0'); 
+            PackageMetadata.Version = TemplatebleSemanticVersion.Parse(year + "." + month + "." + "001"); 
+        }
         private void IncreaseVersion()
         {
             UpdateVersion(true); /*Increment value*/
