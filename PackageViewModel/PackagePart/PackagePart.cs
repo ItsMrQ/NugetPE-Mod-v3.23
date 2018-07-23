@@ -124,7 +124,10 @@ namespace PackageExplorerViewModel
         {
             get { return PackageViewModel.DeleteContentCommand; }
         }
-
+        public ICommand ClearContentsCommand
+        {
+            get { return PackageViewModel.ClearPackageContentsCommand; }
+        }
         public ICommand RenameCommand
         {
             get { return PackageViewModel.RenameContentCommand; }
@@ -226,11 +229,15 @@ namespace PackageExplorerViewModel
                 PackageViewModel.NotifyContentDeleted(this);
             }
         }
-
+        public bool ConfirmClearPackageContents()
+        {
+          bool confirm = PackageViewModel.UIServices.Confirm("Deleted files or folders are not recoverable.", "Are you sure you want to delete all package contents?", isWarning: true);
+          return confirm;
+        }
         public bool IsDescendantOf(PackagePart container)
         {
             if (container == this)
-            {
+            { 
                 return true;
             }
 
