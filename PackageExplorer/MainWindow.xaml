@@ -43,8 +43,8 @@
         <KeyBinding Modifiers="Control" Key="Q" Command="{Binding ViewPackageAnalysisCommand, FallbackValue={StaticResource DisabledCommand}}" />
         <KeyBinding Key="Escape" Command="{Binding CancelEditCommand}" />
         <KeyBinding Key="F2" Command="{Binding RenameContentCommand}" />
-        <KeyBinding Key="Delete" Command="{Binding DeleteContentCommand}" />
-        <KeyBinding Modifiers="Control+Shift" Key="Z" Command="{Binding ClearContentCommand}" />
+        <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+        <KeyBinding Modifiers="Shift" Key="Delete" Command="{Binding ClearPackageContentsCommand}"/>
         <KeyBinding Key="Enter" Command="{Binding ViewContentCommand}" />
     </Window.InputBindings>
 
@@ -204,9 +204,9 @@
                         <self:GrayscaleImage Source="Images/Delete.png" />
                     </self:GrayscaleMenuItem.Icon>
                 </self:GrayscaleMenuItem>
-                <self:GrayscaleMenuItem Header="_Clear Package Contents..." Command="{Binding ClearContentCommand}" InputGestureText="Ctrl+Shift+Z">
+                <self:GrayscaleMenuItem Header="_Clear Package Contents..." Command="{Binding ClearPackageContentsCommand}" InputGestureText="Shift + Delete">
                     <self:GrayscaleMenuItem.Icon>
-                        <self:GrayscaleImage Source="Images/Delete.png" />
+                        <Image Source="Images/DeleteAll.png"/>
                     </self:GrayscaleMenuItem.Icon>
                 </self:GrayscaleMenuItem>
             </MenuItem>

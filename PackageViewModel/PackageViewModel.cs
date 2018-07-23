@@ -40,6 +40,7 @@ namespace PackageExplorerViewModel
         private ICommand _decrementVersionCommand;
         private FileContentInfo _currentFileInfo;
         private RelayCommand<object> _deleteContentCommand;
+        private ICommand _clearPackageContentsCommand;
         private ICommand _editCommand;
         private ICommand _editFileCommand;
         private ICommand _editMetadataSourceCommand;
@@ -558,6 +559,52 @@ namespace PackageExplorerViewModel
             if (file != null)
             {
                 file.Delete();
+            }
+        }
+
+        #endregion
+
+        #region ClearPackageContentsCommand
+        public ICommand ClearPackageContentsCommand
+        {
+            get
+            {
+                if (_clearPackageContentsCommand == null)
+                {
+                    _clearPackageContentsCommand = new RelayCommand<object>(ClearPackageContentsExecute, ClearPackageContentsCanExecute);
+                }
+                return _clearPackageContentsCommand;
+            }
+        }
+
+        private bool ClearPackageContentsCanExecute(object parameter)
+        {
+            if (IsInEditFileMode)
+            {
+               return false;
+            }
+
+            return (parameter ?? SelectedItem) is PackagePart;
+        }
+
+        private void ClearPackageContentsExecute(object parameter)
+        {
+            var root = (parameter ?? SelectedItem) as PackagePart;
+            bool executeConfirmed = root.ConfirmClearPackageContents();
+            if (executeConfirmed)
+            {
+                var files = PackageParts;
+                List<object> PackageFiles = new List<Object>();
+
+                foreach (object file in files) { PackageFiles.Add(file); } 
+
+                for (var i = 0; i < PackageFiles.Count; i++)
+                {
+                    if ((PackageFiles[i] ?? SelectedItem) is PackagePart selected)
+                    {
+                        selected.Delete(false);
+                    }
+                }
             }
         }
 

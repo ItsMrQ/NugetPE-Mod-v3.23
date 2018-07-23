@@ -101,6 +101,11 @@
                         <self:GrayscaleImage Source="Images/Delete.png" />
                     </self:GrayscaleMenuItem.Icon>
                 </self:GrayscaleMenuItem>
+                <self:GrayscaleMenuItem Header="_Clear Package Contents" InputGestureText="Shift + Delete" Command="{Binding ClearContentsCommand}" CommandParameter="{Binding}">
+                    <self:GrayscaleMenuItem.Icon>
+                        <self:GrayscaleImage Source="Images/DeleteAll.png" />
+                    </self:GrayscaleMenuItem.Icon>
+                </self:GrayscaleMenuItem>
             </ContextMenu>
 
             <ContextMenu x:Key="FolderSharedContextMenu" Opened="PackageFolderContextMenu_Opened" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
