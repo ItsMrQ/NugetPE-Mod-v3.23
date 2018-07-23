@@ -43,7 +43,7 @@
         <KeyBinding Modifiers="Control" Key="Q" Command="{Binding ViewPackageAnalysisCommand, FallbackValue={StaticResource DisabledCommand}}" />
         <KeyBinding Key="Escape" Command="{Binding CancelEditCommand}" />
         <KeyBinding Key="F2" Command="{Binding RenameContentCommand}" />
-        <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+        <KeyBinding Key="Delete" Command="{Binding DeleteContentCommand}" />
         <KeyBinding Modifiers="Shift" Key="Delete" Command="{Binding ClearPackageContentsCommand}"/>
         <KeyBinding Key="Enter" Command="{Binding ViewContentCommand}" />
     </Window.InputBindings>
