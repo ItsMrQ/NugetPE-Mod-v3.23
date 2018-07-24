@@ -44,7 +44,7 @@ namespace PackageExplorerViewModel
             get { return _authors; }
             set
             {
-               /* if (String.IsNullOrWhiteSpace(value))
+                if (String.IsNullOrWhiteSpace(value))
                 {
                     const string message = "Authors is required.";
                     SetError("Authors", message);
@@ -52,7 +52,7 @@ namespace PackageExplorerViewModel
                 }
 
                 SetError("Authors", null); 
-                */
+                
                 if (_authors != value)
                 {
                     _authors = value;

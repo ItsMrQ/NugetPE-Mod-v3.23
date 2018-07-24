@@ -1326,7 +1326,7 @@ namespace PackageExplorerViewModel
         }
         private void UpdateAuthors()
         {
-            PackageMetadata.Authors = string.Empty;
+            PackageMetadata.Authors = "*";
             PackageMetadata.Authors = Environment.UserName;
         }
         internal void OnSaved(string fileName)
