@@ -44,14 +44,15 @@ namespace PackageExplorerViewModel
             get { return _authors; }
             set
             {
-                if (String.IsNullOrWhiteSpace(value))
+               /* if (String.IsNullOrWhiteSpace(value))
                 {
                     const string message = "Authors is required.";
                     SetError("Authors", message);
                     throw new ArgumentException(message);
                 }
 
-                SetError("Authors", null);
+                SetError("Authors", null); 
+                */
                 if (_authors != value)
                 {
                     _authors = value;
@@ -183,6 +184,7 @@ namespace PackageExplorerViewModel
         public string RevertDescription { get; set; }
         public string RevertReleaseNotes { get; set; }
         public string RevertSummary { get; set; }
+        public string RevertAuthors { get; set; }
         public string Title
         {
             get { return _title; }

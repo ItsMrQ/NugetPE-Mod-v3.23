@@ -36,6 +36,7 @@ namespace PackageExplorerViewModel
         private ICommand _addBuildFileCommand;
         private ICommand _applyEditCommand;
         private ICommand _cancelEditCommand;
+        private ICommand _updateAuthorsCommand;
         private ICommand _renewVersionCommand;
         private ICommand _resetMetadataFieldsCommand;
         private ICommand _incrementVersionCommand;
@@ -524,6 +525,19 @@ namespace PackageExplorerViewModel
                     _renewVersionCommand = new RelayCommand(RenewVersion, () => !IsInEditFileMode);
                 }
                 return _renewVersionCommand;
+            }
+        }
+        #endregion
+        #region UpdateAuthorsCommand
+        public ICommand UpdateAuthorsCommand
+        {
+            get
+            {
+                if (_updateAuthorsCommand == null)
+                {
+                    _updateAuthorsCommand = new RelayCommand(UpdateAuthors, () => !IsInEditFileMode);
+                }
+                return _updateAuthorsCommand;
             }
         }
         #endregion
@@ -1241,6 +1255,7 @@ namespace PackageExplorerViewModel
             PackageMetadata.RevertDescription = PackageMetadata.Description;
             PackageMetadata.RevertReleaseNotes = PackageMetadata.ReleaseNotes;
             PackageMetadata.RevertSummary = PackageMetadata.Summary;
+            PackageMetadata.RevertAuthors = PackageMetadata.Authors;
         }
         private void RestoreMetaDataFields()
         {
@@ -1248,12 +1263,18 @@ namespace PackageExplorerViewModel
             PackageMetadata.Description = PackageMetadata.RevertDescription;
             PackageMetadata.ReleaseNotes = PackageMetadata.RevertReleaseNotes;
             PackageMetadata.Summary = PackageMetadata.RevertSummary;
+            PackageMetadata.Authors = PackageMetadata.RevertAuthors;
         }
         private void ResetMetadataFields()
         {
+            /*Double assignment garbage collection bypass*/
+            PackageMetadata.Description = "*";
+            PackageMetadata.ReleaseNotes = "*";
+            PackageMetadata.Summary = "*";
+
             PackageMetadata.Description = "My package description.";
-            PackageMetadata.ReleaseNotes = "";
-            PackageMetadata.Summary = "";
+            PackageMetadata.ReleaseNotes = string.Empty;
+            PackageMetadata.Summary = string.Empty;
         }
         #region RenewVersion/IncreaseVersion/DecreaseVersion/UpdateVersion/PaddedValue
         private void RenewVersion()
@@ -1299,13 +1320,15 @@ namespace PackageExplorerViewModel
         private void CommitEdit()
         {
             HasEdit = true;
-           // PackageMetadata.Authors = IPackageMetadata.Authors;//NuGetPe.Authors.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            //   PackageMetadata.Authors = ConvertToString(source.Authors);
             PackageMetadata.ResetErrors();
             IsInEditMetadataMode = false;
             OnPropertyChanged("WindowTitle");
         }
-
+        private void UpdateAuthors()
+        {
+            PackageMetadata.Authors = string.Empty;
+            PackageMetadata.Authors = Environment.UserName;
+        }
         internal void OnSaved(string fileName)
         {
             HasEdit = false;
