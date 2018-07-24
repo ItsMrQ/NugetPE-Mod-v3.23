@@ -37,6 +37,7 @@ namespace PackageExplorerViewModel
         private ICommand _applyEditCommand;
         private ICommand _cancelEditCommand;
         private ICommand _renewVersionCommand;
+        private ICommand _resetMetadataFieldsCommand;
         private ICommand _incrementVersionCommand;
         private ICommand _decrementVersionCommand;
         private FileContentInfo _currentFileInfo;
@@ -500,7 +501,19 @@ namespace PackageExplorerViewModel
         }
 
         #endregion
-
+        #region ResetMetaDataFieldsCommand
+        public ICommand ResetMetadataFieldsCommand
+        {
+            get
+            {
+                if (_resetMetadataFieldsCommand == null)
+                {
+                    _resetMetadataFieldsCommand = new RelayCommand(ResetMetadataFields, () => !IsInEditFileMode);
+                }
+                return _resetMetadataFieldsCommand;
+            }
+        }
+        #endregion
         #region RenewVersionCommand
         public ICommand RenewVersionCommand
         {
@@ -1210,26 +1223,44 @@ namespace PackageExplorerViewModel
 
         public void BeginEdit()
         {
-            // raise the property change event here to force the edit form to rebind 
-            // all controls, which will erase all error states, if any, left over from the previous edit
             OnPropertyChanged("PackageMetadata");
-            PackageMetadata.RevertVersion = PackageMetadata.Version;
+            CopyMetaDataFields();
             IsInEditMetadataMode = true;
         }
 
         public void CancelEdit()
         {
             PackageMetadata.ResetErrors();
-            PackageMetadata.Version = PackageMetadata.RevertVersion;
+            RestoreMetaDataFields();
             IsInEditMetadataMode = false;
         }
+        private void CopyMetaDataFields()
+        {
 
+            PackageMetadata.RevertVersion = PackageMetadata.Version;
+            PackageMetadata.RevertDescription = PackageMetadata.Description;
+            PackageMetadata.RevertReleaseNotes = PackageMetadata.ReleaseNotes;
+            PackageMetadata.RevertSummary = PackageMetadata.Summary;
+        }
+        private void RestoreMetaDataFields()
+        {
+            PackageMetadata.Version = PackageMetadata.RevertVersion;
+            PackageMetadata.Description = PackageMetadata.RevertDescription;
+            PackageMetadata.ReleaseNotes = PackageMetadata.RevertReleaseNotes;
+            PackageMetadata.Summary = PackageMetadata.RevertSummary;
+        }
+        private void ResetMetadataFields()
+        {
+            PackageMetadata.Description = "My package description.";
+            PackageMetadata.ReleaseNotes = "";
+            PackageMetadata.Summary = "";
+        }
         #region RenewVersion/IncreaseVersion/DecreaseVersion/UpdateVersion/PaddedValue
         private void RenewVersion()
         {
             int year = (DateTime.Now.Year) % 100;
-            string month = (DateTime.Now.Month).ToString().PadLeft(2, '0'); 
-            PackageMetadata.Version = TemplatebleSemanticVersion.Parse(year + "." + month + "." + "001"); 
+            string month = (DateTime.Now.Month).ToString().PadLeft(2, '0');
+            PackageMetadata.Version = TemplatebleSemanticVersion.Parse(year + "." + month + "." + "001");
         }
         private void IncreaseVersion()
         {
@@ -1268,6 +1299,8 @@ namespace PackageExplorerViewModel
         private void CommitEdit()
         {
             HasEdit = true;
+           // PackageMetadata.Authors = IPackageMetadata.Authors;//NuGetPe.Authors.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            //   PackageMetadata.Authors = ConvertToString(source.Authors);
             PackageMetadata.ResetErrors();
             IsInEditMetadataMode = false;
             OnPropertyChanged("WindowTitle");
