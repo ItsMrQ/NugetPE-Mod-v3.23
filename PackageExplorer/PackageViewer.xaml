@@ -258,11 +258,6 @@
                             <TextBlock Text="{Binding Serviceable, Converter={StaticResource BooleanConverter}}" Style="{StaticResource DetailMetadataValueStyle}" />
                         </StackPanel>
 
-                        <!-- Summary -->
-                        <TextBlock Text="Summary:" Margin="0,3,0,0" Style="{StaticResource DetailMetadataLabelStyle}" Visibility="{Binding Summary, Converter={StaticResource NullToVisibilityConverter}}"></TextBlock>
-
-                        <TextBlock Style="{StaticResource DetailDescriptionTextBoxStyle}" Text="{Binding Summary, Converter={StaticResource NormalizeTextConverter}}" Visibility="{Binding Summary, Converter={StaticResource NullToVisibilityConverter}}"></TextBlock>
-
                         <!-- Description -->
                         <TextBlock Text="Description:" Margin="0,3,0,0" Style="{StaticResource DetailMetadataLabelStyle}"></TextBlock>
 
@@ -272,6 +267,11 @@
                         <TextBlock Text="Release notes:" Margin="0,3,0,0" Style="{StaticResource DetailMetadataLabelStyle}" Visibility="{Binding ReleaseNotes, Converter={StaticResource NullToVisibilityConverter}}"></TextBlock>
 
                         <TextBlock Style="{StaticResource DetailDescriptionTextBoxStyle}" Text="{Binding ReleaseNotes, Converter={StaticResource NormalizeTextConverter}}" Visibility="{Binding ReleaseNotes, Converter={StaticResource NullToVisibilityConverter}}"></TextBlock>
+                        
+                        <!-- Summary -->
+                        <TextBlock Text="Summary:" Margin="0,3,0,0" Style="{StaticResource DetailMetadataLabelStyle}" Visibility="{Binding Summary, Converter={StaticResource NullToVisibilityConverter}}"></TextBlock>
+
+                        <TextBlock Style="{StaticResource DetailDescriptionTextBoxStyle}" Text="{Binding Summary, Converter={StaticResource NormalizeTextConverter}}" Visibility="{Binding Summary, Converter={StaticResource NullToVisibilityConverter}}"></TextBlock>
 
                         <!-- Dependencies list -->
                         <TextBlock Text="{x:Static resources:Resources.Dialog_DependenciesLabel}" Style="{StaticResource DetailMetadataLabelStyle}" />
