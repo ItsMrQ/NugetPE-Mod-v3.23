@@ -26,7 +26,6 @@ namespace PackageExplorerViewModel
         private bool _serviceable;
         private string _title;
         private TemplatebleSemanticVersion _version;
-        private TemplatebleSemanticVersion _revertVersion;
         private ICollection<PackageDependencySet> _dependencySets;
         private ICollection<PackageReferenceSet> _packageAssemblyReferences;
         private Version _minClientVersion;
@@ -52,7 +51,8 @@ namespace PackageExplorerViewModel
                     throw new ArgumentException(message);
                 }
 
-                SetError("Authors", null);
+                SetError("Authors", null); 
+                
                 if (_authors != value)
                 {
                     _authors = value;
@@ -180,11 +180,11 @@ namespace PackageExplorerViewModel
                 }
             }
         }
-        public TemplatebleSemanticVersion RevertVersion
-        {
-            get { return _revertVersion;}
-            set { _revertVersion = value;}
-        }
+        public TemplatebleSemanticVersion RevertVersion { get; set; }
+        public string RevertDescription { get; set; }
+        public string RevertReleaseNotes { get; set; }
+        public string RevertSummary { get; set; }
+        public string RevertAuthors { get; set; }
         public string Title
         {
             get { return _title; }

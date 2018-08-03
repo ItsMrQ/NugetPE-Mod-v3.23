@@ -98,10 +98,7 @@
 
             <!-- Version -->
             <Label Grid.Row="1" Grid.Column="0" Target="VersionBox" Style="{StaticResource RequiredLabelStyle}" Content="_Version" />
-
-
             <TextBox Grid.Row="1" Grid.Column="1" x:Name="VersionBox">
-
                 <TextBox.Text>
                     <Binding Path="PackageMetadata.Version" Converter="{StaticResource VersionConverter}" ValidatesOnDataErrors="True">
                         <Binding.ValidationRules>
@@ -110,10 +107,23 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-        <!---Decrease Version-->
+            <!--Renew Version (New Month)-->
             <Button Grid.Row="1" Grid.Column="0"
                             Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
-                            Margin="20,0,0,0"
+                            Margin="47,5,39,3"
+                            Width = "20"
+                            ToolTipService.ToolTip="Renew Version"
+                            Visibility="{Binding IsInEditMetadataMode, Converter={StaticResource boolToVis}}"
+                            Command="{Binding RenewVersionCommand}">
+
+                <Grid>
+                    <Image Source="Images/Tools.png" />
+                </Grid>
+            </Button>
+            <!---Decrease Version-->
+            <Button Grid.Row="1" Grid.Column="0"
+                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                            Margin="64,5,19,3"
                             Width = "20"
                             ToolTipService.ToolTip="Decrease Version"
                             Visibility="{Binding IsInEditMetadataMode, Converter={StaticResource boolToVis}}"
@@ -126,7 +136,7 @@
             <!--Increase Version-->
             <Button Grid.Row="1" Grid.Column="0"
                             Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
-                            Margin="60,0,0,0"
+                            Margin="82,5,0,3"
                             Width = "20"
                             ToolTipService.ToolTip="Increase Version"
                             Visibility="{Binding IsInEditMetadataMode, Converter={StaticResource boolToVis}}"
@@ -142,6 +152,18 @@
 
             <!-- Authors -->
             <Label Grid.Row="3" Grid.Column="0" Target="AuthorsBox" Style="{StaticResource RequiredLabelStyle}" Content="_Authors" />
+            <!--Update Author-->
+            <Button Grid.Row="3" Grid.Column="0"
+                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                            Margin="84,5,2,3"
+                            Width = "20"
+                            ToolTipService.ToolTip="Update Author"
+                            Visibility="{Binding IsInEditMetadataMode, Converter={StaticResource boolToVis}}"
+                            Command="{Binding UpdateAuthorsCommand}">
+                <Grid>
+                    <Image Source="Images/props.png" />
+                </Grid>
+            </Button>
             <TextBox Grid.Row="3" Grid.Column="1" x:Name="AuthorsBox" Text="{Binding PackageMetadata.Authors, ValidatesOnDataErrors=True}" />
 
             <!-- Owners -->
@@ -179,9 +201,23 @@
             <TextBox Grid.Row="10" Grid.Column="1" x:Name="LicenseUrlBox" Text="{Binding PackageMetadata.LicenseUrl, Converter={StaticResource UriConverter}, ValidatesOnDataErrors=true}" />
 
             <!-- Description -->
+            <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="0">
             <Label Grid.Row="11" Grid.Column="0" Target="DescriptionBox" Style="{StaticResource RequiredLabelStyle}" Content="_Description" />
+                <!--Reset Description-->
+                <Button Grid.Row="11" Grid.Column="0"
+                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                            Margin="10,0,0,55"
+                            Width = "20"
+                            ToolTipService.ToolTip="Clear Description, Release Notes and Summary"
+                            Visibility="{Binding IsInEditMetadataMode, Converter={StaticResource boolToVis}}"
+                            Command="{Binding ResetMetadataFieldsCommand}">
+                    <Grid>
+                        <Image Source="Images/Properties.png" />
+                    </Grid>
+                </Button>
+            </StackPanel>
             <TextBox Grid.Row="11" Grid.Column="1" Height="80" MaxLength="2000" VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" x:Name="DescriptionBox" Text="{Binding PackageMetadata.Description, ValidatesOnDataErrors=True}" AcceptsReturn="True" />
-
+                       
             <!-- Release Notes -->
             <Label Grid.Row="12" Grid.Column="0" Target="ReleaseNotesBox" Style="{StaticResource LabelStyle}" Content="_Release Notes" />
             <TextBox Grid.Row="12" Grid.Column="1" Height="50" VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" x:Name="ReleaseNotesBox" Text="{Binding PackageMetadata.ReleaseNotes}" AcceptsReturn="True" />

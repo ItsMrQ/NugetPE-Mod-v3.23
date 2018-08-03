@@ -36,6 +36,9 @@ namespace PackageExplorerViewModel
         private ICommand _addBuildFileCommand;
         private ICommand _applyEditCommand;
         private ICommand _cancelEditCommand;
+        private ICommand _updateAuthorsCommand;
+        private ICommand _renewVersionCommand;
+        private ICommand _resetMetadataFieldsCommand;
         private ICommand _incrementVersionCommand;
         private ICommand _decrementVersionCommand;
         private FileContentInfo _currentFileInfo;
@@ -499,8 +502,45 @@ namespace PackageExplorerViewModel
         }
 
         #endregion
-
-
+        #region ResetMetaDataFieldsCommand
+        public ICommand ResetMetadataFieldsCommand
+        {
+            get
+            {
+                if (_resetMetadataFieldsCommand == null)
+                {
+                    _resetMetadataFieldsCommand = new RelayCommand(ResetMetadataFields, () => !IsInEditFileMode);
+                }
+                return _resetMetadataFieldsCommand;
+            }
+        }
+        #endregion
+        #region RenewVersionCommand
+        public ICommand RenewVersionCommand
+        {
+            get
+            {
+                if (_renewVersionCommand == null)
+                {
+                    _renewVersionCommand = new RelayCommand(RenewVersion, () => !IsInEditFileMode);
+                }
+                return _renewVersionCommand;
+            }
+        }
+        #endregion
+        #region UpdateAuthorsCommand
+        public ICommand UpdateAuthorsCommand
+        {
+            get
+            {
+                if (_updateAuthorsCommand == null)
+                {
+                    _updateAuthorsCommand = new RelayCommand(UpdateAuthors, () => !IsInEditFileMode);
+                }
+                return _updateAuthorsCommand;
+            }
+        }
+        #endregion
 
         #region IncreaseVersionCommand
         public ICommand IncreaseVersionCommand
@@ -1197,21 +1237,52 @@ namespace PackageExplorerViewModel
 
         public void BeginEdit()
         {
-            // raise the property change event here to force the edit form to rebind 
-            // all controls, which will erase all error states, if any, left over from the previous edit
             OnPropertyChanged("PackageMetadata");
-            PackageMetadata.RevertVersion = PackageMetadata.Version;
+            CopyMetaDataFields();
             IsInEditMetadataMode = true;
         }
 
         public void CancelEdit()
         {
             PackageMetadata.ResetErrors();
-            PackageMetadata.Version = PackageMetadata.RevertVersion;
+            RestoreMetaDataFields();
             IsInEditMetadataMode = false;
         }
+        private void CopyMetaDataFields()
+        {
 
-        #region IncreaseVersion/DecreaseVersion/UpdateVersion/PaddedValue
+            PackageMetadata.RevertVersion = PackageMetadata.Version;
+            PackageMetadata.RevertDescription = PackageMetadata.Description;
+            PackageMetadata.RevertReleaseNotes = PackageMetadata.ReleaseNotes;
+            PackageMetadata.RevertSummary = PackageMetadata.Summary;
+            PackageMetadata.RevertAuthors = PackageMetadata.Authors;
+        }
+        private void RestoreMetaDataFields()
+        {
+            PackageMetadata.Version = PackageMetadata.RevertVersion;
+            PackageMetadata.Description = PackageMetadata.RevertDescription;
+            PackageMetadata.ReleaseNotes = PackageMetadata.RevertReleaseNotes;
+            PackageMetadata.Summary = PackageMetadata.RevertSummary;
+            PackageMetadata.Authors = PackageMetadata.RevertAuthors;
+        }
+        private void ResetMetadataFields()
+        {
+            /*Double assignment garbage collection bypass*/
+            PackageMetadata.Description = "*";
+            PackageMetadata.ReleaseNotes = "*";
+            PackageMetadata.Summary = "*";
+
+            PackageMetadata.Description = "My package description.";
+            PackageMetadata.ReleaseNotes = string.Empty;
+            PackageMetadata.Summary = string.Empty;
+        }
+        #region RenewVersion/IncreaseVersion/DecreaseVersion/UpdateVersion/PaddedValue
+        private void RenewVersion()
+        {
+            int year = (DateTime.Now.Year) % 100;
+            string month = (DateTime.Now.Month).ToString().PadLeft(2, '0');
+            PackageMetadata.Version = TemplatebleSemanticVersion.Parse(year + "." + month + "." + "001");
+        }
         private void IncreaseVersion()
         {
             UpdateVersion(true); /*Increment value*/
@@ -1253,7 +1324,11 @@ namespace PackageExplorerViewModel
             IsInEditMetadataMode = false;
             OnPropertyChanged("WindowTitle");
         }
-
+        private void UpdateAuthors()
+        {
+            PackageMetadata.Authors = "*";
+            PackageMetadata.Authors = Environment.UserName;
+        }
         internal void OnSaved(string fileName)
         {
             HasEdit = false;

@@ -32,7 +32,8 @@ namespace PackageExplorerViewModel
 
         public TemplatebleSemanticVersion Version
         {
-            get{
+            get
+            {
                 int year = (DateTime.Now.Year) % 100;
                 string month = (DateTime.Now.Month).ToString().PadLeft(2, '0'); /*Keep leading zero*/
                 return TemplatebleSemanticVersion.Parse(year + "." + month + "." + "001"); /*YYYY.MM.001 automatic monthly versioning*/
