@@ -1272,7 +1272,7 @@ namespace PackageExplorerViewModel
             PackageMetadata.ReleaseNotes = "*";
             PackageMetadata.Summary = "*";
 
-            PackageMetadata.Description = "My package description.";
+            PackageMetadata.Description = string.Empty;
             PackageMetadata.ReleaseNotes = string.Empty;
             PackageMetadata.Summary = string.Empty;
         }

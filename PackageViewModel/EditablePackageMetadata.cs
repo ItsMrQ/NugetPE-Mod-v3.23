@@ -269,7 +269,7 @@ namespace PackageExplorerViewModel
             get { return _description; }
             set
             {
-                if (String.IsNullOrWhiteSpace(value))
+                /*if (String.IsNullOrWhiteSpace(value))
                 {
                     const string message = "Description is required.";
                     SetError("Description", message);
@@ -277,7 +277,7 @@ namespace PackageExplorerViewModel
                 }
 
                 SetError("Description", null);
-
+                */
                 if (_description != value)
                 {
                     _description = value;
@@ -402,7 +402,7 @@ namespace PackageExplorerViewModel
             get { return PackageAssemblyReferences; }
         }
 
-        #endregion
+#endregion
 
         public void CopyFrom(IPackageMetadata source)
         {
