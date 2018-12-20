@@ -96,6 +96,7 @@
                 <Separator />
                 <MenuItem Header="_Rename..." InputGestureText="F2" Command="{Binding RenameCommand}" CommandParameter="{Binding}" />
                 <MenuItem Header="Re_place with..." Command="{Binding ReplaceCommand}" CommandParameter="{Binding}" />
+                <Separator />
                 <self:GrayscaleMenuItem Header="_Delete" InputGestureText="Delete" Command="{Binding DeleteCommand}" CommandParameter="{Binding}">
                     <self:GrayscaleMenuItem.Icon>
                         <self:GrayscaleImage Source="Images/Delete.png" />
@@ -152,9 +153,15 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="_Rename..." InputGestureText="F2" Command="{Binding RenameCommand}" CommandParameter="{Binding}" />
+                <Separator />
                 <self:GrayscaleMenuItem Header="_Delete" InputGestureText="Delete" Command="{Binding DeleteCommand}" CommandParameter="{Binding}">
                     <self:GrayscaleMenuItem.Icon>
                         <self:GrayscaleImage Source="Images/Delete.png" />
+                    </self:GrayscaleMenuItem.Icon>
+                </self:GrayscaleMenuItem>
+                <self:GrayscaleMenuItem Header="_Clear Package Contents" InputGestureText="Shift + Delete" Command="{Binding ClearContentsCommand}" CommandParameter="{Binding}">
+                    <self:GrayscaleMenuItem.Icon>
+                        <self:GrayscaleImage Source="Images/DeleteAll.png" />
                     </self:GrayscaleMenuItem.Icon>
                 </self:GrayscaleMenuItem>
             </ContextMenu>
@@ -531,6 +538,12 @@
                         <self:GrayscaleMenuItem Header="Add _Src Folder" Command="{Binding AddContentFolderCommand}" CommandParameter="src">
                             <self:GrayscaleMenuItem.Icon>
                                 <self:GrayscaleImage Source="Images/Source.png" />
+                            </self:GrayscaleMenuItem.Icon>
+                        </self:GrayscaleMenuItem>
+                        <Separator />
+                        <self:GrayscaleMenuItem Header="_Clear Package Contents..." Command="{Binding ClearPackageContentsCommand}">
+                            <self:GrayscaleMenuItem.Icon>
+                                <self:GrayscaleImage Source="Images/DeleteAll.png" />
                             </self:GrayscaleMenuItem.Icon>
                         </self:GrayscaleMenuItem>
                     </ContextMenu>
